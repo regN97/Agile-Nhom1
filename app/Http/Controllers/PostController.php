@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     public function index(){
-        $title = 'Home';
-        return view('client.layouts.posts.main')->with('title', $title);
+        $title = 'Danh sách bài viết';
+        return view('admin.layouts.posts.list')->with('title', $title);
     }
 }

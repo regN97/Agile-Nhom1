@@ -44,11 +44,6 @@
 
 <body>
     <main class="wrapper sb-default ecom">
-        <!-- Loader -->
-        <div id="cr-overlay">
-            <div class="loader"></div>
-        </div>
-
         @include('admin.layouts.partials.header')
 
         @include('admin.layouts.partials.sidebar')

@@ -17,24 +17,24 @@
                     <ul class="cr-sb-drop condense">
                         <li class="cr-sb-item sb-subdrop-item">
                             <a href="javascript:void(0)" class="cr-sub-drop-toggle">
-                                <i class="ri-shield-user-line"></i><span class="condense">Categories<i
+                                <i class="ri-shield-user-line"></i><span class="condense">Danh mục<i
                                         class="drop-arrow ri-arrow-down-s-line"></i></span></a>
                             <ul class="cr-sb-subdrop condense">
                                 <li><a href="{{ route('admin.categories.index') }}" class="cr-page-link subdrop"><i
-                                            class="ri-checkbox-blank-circle-line"></i>List Category</a></li>
+                                            class="ri-checkbox-blank-circle-line"></i>Danh sách danh mục</a></li>
                                 <li><a href="{{ route('admin.categories.create') }}" class="cr-page-link subdrop"><i
-                                            class="ri-checkbox-blank-circle-line"></i>Create Category</a></li>
+                                            class="ri-checkbox-blank-circle-line"></i>Thêm danh mục</a></li>
                             </ul>
                         </li>
                         <li class="cr-sb-item sb-subdrop-item">
                             <a href="javascript:void(0)" class="cr-sub-drop-toggle">
-                                <i class="ri-shield-user-line"></i><span class="condense">Posts<i
+                                <i class="ri-shield-user-line"></i><span class="condense">Bài đăng<i
                                         class="drop-arrow ri-arrow-down-s-line"></i></span></a>
                             <ul class="cr-sb-subdrop condense">
                                 <li><a href="{{ route('admin.posts.index') }}" class="cr-page-link subdrop"><i
-                                            class="ri-checkbox-blank-circle-line"></i>List Post</a></li>
+                                            class="ri-checkbox-blank-circle-line"></i>Danh sách bài đăng</a></li>
                                 <li><a href="{{ route('admin.posts.create') }}" class="cr-page-link subdrop"><i
-                                            class="ri-checkbox-blank-circle-line"></i>Create Post</a></li>
+                                            class="ri-checkbox-blank-circle-line"></i>Thêm bài đăng</a></li>
                             </ul>
                         </li>
                     </ul>

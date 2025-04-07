@@ -13,7 +13,10 @@ class Post extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
-
+    public function uploadedBy()
+    {
+        return $this->belongsTo(User::class, 'uploaded_by');
+    }
     public function upload_files()
     {
         return $this->belongsTo(UploadFile::class, 'image', 'id');

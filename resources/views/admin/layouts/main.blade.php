@@ -54,10 +54,8 @@
 
                 <div class="cr-page-title cr-page-title-2">
                     <div class="cr-breadcrumb">
-                        <h5>{{ $title }}</h5>
                         <ul>
                             <li><a href="#">Carrot</a></li>
-                            <li>{{ $title }}</li>
                         </ul>
                     </div>
                 </div>

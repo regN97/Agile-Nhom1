@@ -35,11 +35,12 @@ Route::prefix('admin')->as('admin.')->middleware('check-admin')->group(
 
         Route::prefix('posts')->as('posts.')->group(function () {
             Route::get('/', [PostController::class, 'index'])->name('index');
+            Route::get('/{id}/show', [PostController::class, 'show'])->name('show');
             Route::get('/create', [PostController::class, 'create'])->name('create');
             Route::post('/store', [PostController::class, 'store'])->name('store');
             Route::get('/edit/{id}', [PostController::class, 'edit'])->name('edit');
             Route::patch('/update/{id}', [PostController::class, 'update'])->name('update');
-            Route::delete('/delete/{id}', [PostController::class, 'delete'])->name('delete');
+            Route::delete('/destroy/{id}', [PostController::class, 'destroy'])->name('destroy');
         });
 
     });

@@ -35,7 +35,11 @@
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
+                                                <form action="{{ route('admin.categories.delete', $category->id)}}" method="post"  onsubmit="return confirm('Bạn chắc chắn muốn xóa chứ?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Xóa</button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>

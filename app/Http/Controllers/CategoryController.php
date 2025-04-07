@@ -48,4 +48,11 @@ class CategoryController extends Controller
 
         return redirect()->route('admin.categories.index')->with('success', 'Thêm danh mục thành công');
     }
+
+    public function delete(Request $request) {
+
+        $category = Category::where('id', $request->id)->first();
+        $category->delete(); 
+        return redirect()->route('admin.categories.index');
+    }
 }

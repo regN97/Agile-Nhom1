@@ -16,7 +16,7 @@ class Post extends Model
 
     public function upload_files()
     {
-        return $this->belongsTo(UploadFile::class, 'image', 'id');
+        return $this->belongsTo(UploadFile::class, 'image');
     }
 
     public function users()

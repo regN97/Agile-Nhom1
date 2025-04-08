@@ -17,6 +17,7 @@
                                     <th>Title</th>
                                     <th>Content</th>
                                     <th>Category</th>
+                                    <th>Image</th>
                                     <th>Uploaded By</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -30,6 +31,7 @@
                                         <td>{{ $post->title }}</td>
                                         <td>{{ $post->content }}</td>
                                         <td>{{ $post->categories->name }}</td>
+                                        <td><img src="{{ asset('storage/'.$post->upload_files->file_path) }}" style="max-width: 100px; height: auto;"  alt="image"></td>
                                         <td>{{ $post->users->name }}</td>
                                         <td>{{ $post->status }}</td>
                                         <td>
@@ -40,8 +42,8 @@
                                                 <span class="sr-only"><i class="ri-settings-3-line"></i></span>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
+                                                <a class="dropdown-item" href="{{route('admin.posts.edit', $post->id)}}">Edit</a>
+                                                <a class="dropdown-item" href="{{route('admin.posts.delete', $post->id)}}">Delete</a>
                                             </div>
                                         </td>
                                     </tr>

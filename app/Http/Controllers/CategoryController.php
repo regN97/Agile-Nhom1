@@ -48,6 +48,24 @@ class CategoryController extends Controller
 
         return redirect()->route('admin.categories.index')->with('success', 'Thêm danh mục thành công');
     }
+    public function edit($id) {
+        $category = Category::where('id', $id)->first();
+        $title = 'Chỉnh sửa danh mục';
+        return view('admin.layouts.categories.edit')->with(['category' => $category, 'title' => $title]);
+    }
+    public function update($id, Request $req) {
+        $req->validate([
+            'name' => 'required|max:50',
+            'description' => 'nullable|max:255',
+        ]);
+
+        $data = [
+            'name' => $req->name,
+            'description' => $req->description,
+        ];
+        Category::where('id', $id)->update($data);
+        return redirect()->route('admin.categories.index')->with('success', 'Chỉnh sửa danh mục thành công');
+    }
 
     public function delete(Request $request) {
 

@@ -104,4 +104,17 @@ class PostController extends Controller
         // Quay lại danh sách bài viết với thông báo thành công
         return redirect()->route('admin.posts.index')->with('success', 'Cập nhật bài viết thành công.');
     }
+    public function delete($id)
+    {
+        $post = Post::findOrFail($id);
+        if ($post->image) {
+            $uploadFile = UploadFile::find($post->image);
+            if ($uploadFile) {
+                Storage::disk('public')->delete($uploadFile->file_path);
+                $uploadFile->delete();
+            }
+        }
+        $post->delete();
+        return redirect()->route('admin.posts.index')->with('success', 'Xóa bài viết thành công.');
+    }
 }

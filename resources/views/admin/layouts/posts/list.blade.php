@@ -31,7 +31,13 @@
                                         <td>{{ $post->title }}</td>
                                         <td>{{ $post->content }}</td>
                                         <td>{{ $post->categories->name }}</td>
-                                        <td><img src="{{ asset('storage/'.$post->upload_files->file_path) }}" style="max-width: 100px; height: auto;"  alt="image"></td>
+                                        <td>
+                                            @if($post->upload_files && $post->upload_files->file_path)
+                                                <img src="{{ asset('storage/'.$post->upload_files->file_path) }}" style="max-width: 100px; height: auto;" alt="image">
+                                            @else
+                                                No image
+                                            @endif
+                                        </td>
                                         <td>{{ $post->users->name }}</td>
                                         <td>{{ $post->status }}</td>
                                         <td>
@@ -43,7 +49,11 @@
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{route('admin.posts.edit', $post->id)}}">Edit</a>
-                                                <a class="dropdown-item" href="{{route('admin.posts.delete', $post->id)}}">Delete</a>
+                                                <form action="{{ route('admin.posts.delete', $post->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="dropdown-item">Xóa</button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>

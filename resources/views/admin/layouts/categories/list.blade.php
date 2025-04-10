@@ -34,8 +34,12 @@
                                                 <span class="sr-only"><i class="ri-settings-3-line"></i></span>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
+                                                <a class="dropdown-item" href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-warning">Edit</a>
+                                                <form action="{{ route('admin.categories.delete', $category->id)}}" method="post"  onsubmit="return confirm('Bạn chắc chắn muốn xóa chứ?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Xóa</button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>

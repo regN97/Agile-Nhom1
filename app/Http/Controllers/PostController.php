@@ -26,24 +26,16 @@ class PostController extends Controller
     public function create()
     {
         $title = 'Thêm mới bài viết';
-
+        $categories = Category::get();
         return view('admin.layouts.posts.create')->with([
+            'categories' => $categories,
             'title' => $title
         ]);
     }
-    public function edit($id)
+    public function store(Request $request)
     {
-        $post = Post::findOrFail($id);
-        $title = 'Trang sửa bài viết';
-        $categories = Category::all();
-        return view('admin.layouts.posts.edit', compact('categories', 'post', 'title'));
-    }
-    public function update(Request $request, $id)
-    {
-        $post = Post::findOrFail($id);
-        
         // Validate input data
-        $dataValidate = $request->validate([
+        $request->validate([
             'title' => 'required|string|max:255', // Tiêu đề
             'content' => 'required|string', // Nội dung
             'category_id' => 'required|exists:categories,id', // Danh mục
@@ -74,6 +66,68 @@ class PostController extends Controller
             return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để tiếp tục');
         }
 
+        $file = $request->file('image');
+        $path = null;
+        if ($file) {
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('uploads', $fileName, 'public');
+        }
+
+        $data = [
+            'title' => $request->title,
+            'category_id' => $request->category_id,
+            'content' => $request->content,
+            'uploaded_by' => $userId,
+            'status' => $request->status,
+            'image' => $path
+        ];
+        Post::create($data);
+
+        return redirect()->route('admin.posts.index')->with('success', 'Thêm bài viết thành công.');
+
+    }
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+        $title = 'Trang sửa bài viết';
+        $categories = Category::all();
+        return view('admin.layouts.posts.edit', compact('categories', 'post', 'title'));
+    }
+    public function update(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
+
+        // Validate input data
+        $request->validate([
+            'title' => 'required|string|max:255', // Tiêu đề
+            'content' => 'required|string', // Nội dung
+            'category_id' => 'required|exists:categories,id', // Danh mục
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg', // Hình ảnh
+            'uploaded_by' => 'nullable|exists:users,id', // Người đăng
+            'status' => 'required|in:draft,published', // Trạng thái
+        ], [
+            'required' => ':attribute không được để trống',
+            'string' => ':attribute phải là chuỗi',
+            'max' => ':attribute không được vượt quá :max ký tự',
+            'exists' => ':attribute không hợp lệ',
+            'image' => ':attribute phải là hình ảnh',
+            'mimes' => ':attribute phải là định dạng: :values',
+            'in' => ':attribute phải là một trong các giá trị: :values',
+        ], [
+            'title' => 'Tiêu đề',
+            'content' => 'Nội dung',
+            'category_id' => 'Danh mục',
+            'image' => 'Hình ảnh',
+            'uploaded_by' => 'Người đăng',
+            'status' => 'Trạng thái',
+        ]);
+
+        // Kiểm tra người dùng đã đăng nhập hay chưa
+        if (Auth::check()) {
+            $userId = Auth::user()->id; // Lấy ID người dùng đã đăng nhập
+        } else {
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để tiếp tục');
+        }
         // Kiểm tra nếu có hình ảnh mới
         if ($request->hasFile('image')) {
             // Lưu ảnh mới vào thư mục và lưu thông tin ảnh vào bảng upload_files

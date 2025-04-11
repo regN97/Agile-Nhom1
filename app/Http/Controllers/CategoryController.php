@@ -31,6 +31,11 @@ class CategoryController extends Controller
         $req->validate([
             'name' => 'required|max:50',
             'description' => 'nullable|max:255',
+        ],[
+            'name.required' => 'Tên danh mục không được để trống',
+            'name.max' => 'Tên danh mục quá dài',
+            'description.required' => 'Mô tả danh mục không được để trống',
+            'description.string' => 'Mô tả sản phẩm không phải là chuỗi'
         ]);
 
         $data = [
@@ -57,6 +62,11 @@ class CategoryController extends Controller
         $req->validate([
             'name' => 'required|max:50',
             'description' => 'nullable|max:255',
+        ],[
+            'name.required' => 'Tên danh mục không được để trống',
+            'name.max' => 'Tên danh mục quá dài',
+            'description.required' => 'Mô tả danh mục không được để trống',
+            'description.string' => 'Mô tả sản phẩm không phải là chuỗi'
         ]);
 
         $data = [

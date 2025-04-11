@@ -32,11 +32,15 @@
                                         <td>{{ $post->content }}</td>
                                         <td>{{ $post->categories->name }}</td>
                                         <td>
+                                        @if ($post->image !==  null)
+                                        <img width="100" src="{{ asset('storage/' . $post->image) }}" alt="">
+                                       
+                                        @endif
+                                        
                                             @if($post->upload_files && $post->upload_files->file_path)
                                                 <img src="{{ asset('storage/'.$post->upload_files->file_path) }}" style="max-width: 100px; height: auto;" alt="image">
-                                            @else
-                                                No image
-                                            @endif
+                                             
+                                          @endif
                                         </td>
                                         <td>{{ $post->users->name }}</td>
                                         <td>{{ $post->status }}</td>

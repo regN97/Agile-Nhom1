@@ -26,10 +26,74 @@ class PostController extends Controller
     public function create()
     {
         $title = 'Thêm mới bài viết';
-
+        $categories = Category::get();
         return view('admin.layouts.posts.create')->with([
+            'categories' => $categories,
             'title' => $title
         ]);
+    }
+    public function store(Request $request)
+    {
+        // Validate input data
+        $request->validate([
+            'title' => 'required|string|max:255', // Tiêu đề
+            'content' => 'required|string', // Nội dung
+            'category_id' => 'required|exists:categories,id', // Danh mục
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg', // Hình ảnh
+            'uploaded_by' => 'nullable|exists:users,id', // Người đăng
+            'status' => 'required|in:draft,published', // Trạng thái
+        ], [
+            'required' => ':attribute không được để trống',
+            'string' => ':attribute phải là chuỗi',
+            'max' => ':attribute không được vượt quá :max ký tự',
+            'exists.inputs' => ':attribute không hợp lệ',
+            'image' => ':attribute phải là hình ảnh',
+            'mimes' => ':attribute phải là định dạng: :values',
+            'in' => ':attribute phải là một trong các giá trị: :values',
+        ], [
+            'title' => 'Tiêu đề',
+            'content' => 'Nội dung',
+            'category_id' => 'Danh mục',
+            'image' => 'Hình ảnh',
+            'uploaded_by' => 'Người đăng',
+            'status' => 'Trạng thái',
+        ]);
+    
+        // Kiểm tra người dùng đã đăng nhập hay chưa
+        if (Auth::check()) {
+            $userId = Auth::user()->id; // Lấy ID người dùng đã đăng nhập
+        } else {
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để tiếp tục');
+        }
+    
+        // Dữ liệu cơ bản cho bài viết
+        $data = [
+            'title' => $request->title,
+            'category_id' => $request->category_id,
+            'content' => $request->content,
+            'uploaded_by' => $userId,
+            'status' => $request->status,
+        ];
+    
+        // Kiểm tra nếu có hình ảnh được tải lên
+        if ($request->hasFile('image')) {
+            // Lưu ảnh vào thư mục và lưu thông tin ảnh vào bảng upload_files
+            $imagePath = $request->file('image')->store('image/posts', 'public');
+            $uploadFile = UploadFile::create([
+                'file_name' => $request->file('image')->getClientOriginalName(),
+                'file_path' => $imagePath,
+                'file_type' => $request->file('image')->getClientMimeType(),
+                'uploaded_by' => $userId,
+            ]);
+    
+            // Gán ID ảnh vào dữ liệu bài viết
+            $data['image'] = $uploadFile->id;
+        }
+    
+        // Tạo bài viết
+        Post::create($data);
+    
+        return redirect()->route('admin.posts.index')->with('success', 'Thêm bài viết thành công.');
     }
     public function edit($id)
     {
@@ -41,9 +105,9 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $post = Post::findOrFail($id);
-        
+
         // Validate input data
-        $dataValidate = $request->validate([
+        $request->validate([
             'title' => 'required|string|max:255', // Tiêu đề
             'content' => 'required|string', // Nội dung
             'category_id' => 'required|exists:categories,id', // Danh mục
@@ -73,7 +137,6 @@ class PostController extends Controller
         } else {
             return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để tiếp tục');
         }
-
         // Kiểm tra nếu có hình ảnh mới
         if ($request->hasFile('image')) {
             // Lưu ảnh mới vào thư mục và lưu thông tin ảnh vào bảng upload_files

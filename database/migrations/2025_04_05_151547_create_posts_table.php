@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title', 255);
             $table->text('content');
             $table->foreignId('category_id')->constrained('categories')->onDelete('restrict');
-            $table->string('image', 255)->nullable();
+            $table->foreignId('image')->nullable()->constrained('upload_files')->onDelete('set null');
             $table->foreignId('uploaded_by')->nullable()->constrained('users')->onDelete('set null');
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamps();

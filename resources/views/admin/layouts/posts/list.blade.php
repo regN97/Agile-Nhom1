@@ -8,7 +8,7 @@
                     <div class="table-responsive">
                         @if (session('success'))
                             <p class="text-success">{{ session('success') }}</p>
-                            
+
                         @endif
                         <table id="product_list" class="table" style="width:100%">
                             <thead>
@@ -32,15 +32,13 @@
                                         <td>{{ $post->content }}</td>
                                         <td>{{ $post->categories->name }}</td>
                                         <td>
-                                        @if ($post->image !==  null)
-                                        <img width="100" src="{{ asset('storage/' . $post->image) }}" alt="">
-                                       
-                                        @endif
-                                        
+
                                             @if($post->upload_files && $post->upload_files->file_path)
-                                                <img src="{{ asset('storage/'.$post->upload_files->file_path) }}" style="max-width: 100px; height: auto;" alt="image">
-                                             
-                                          @endif
+                                                <img src="{{ asset('storage/' . $post->upload_files->file_path) }}"
+                                                    style="max-width: 100px; height: auto;" alt="image">
+                                            @else
+                                                No Image
+                                            @endif
                                         </td>
                                         <td>{{ $post->users->name }}</td>
                                         <td>{{ $post->status }}</td>
@@ -52,8 +50,10 @@
                                                 <span class="sr-only"><i class="ri-settings-3-line"></i></span>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('admin.posts.edit', $post->id)}}">Edit</a>
-                                                <form action="{{ route('admin.posts.delete', $post->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa?')">
+                                                <a class="dropdown-item"
+                                                    href="{{route('admin.posts.edit', $post->id)}}">Edit</a>
+                                                <form action="{{ route('admin.posts.delete', $post->id) }}" method="POST"
+                                                    onsubmit="return confirm('Bạn có chắc chắn muốn xóa?')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="dropdown-item">Xóa</button>

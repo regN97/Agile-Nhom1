@@ -46,7 +46,7 @@ class PostController extends Controller
             'required' => ':attribute không được để trống',
             'string' => ':attribute phải là chuỗi',
             'max' => ':attribute không được vượt quá :max ký tự',
-            'exists' => ':attribute không hợp lệ',
+            'exists.inputs' => ':attribute không hợp lệ',
             'image' => ':attribute phải là hình ảnh',
             'mimes' => ':attribute phải là định dạng: :values',
             'in' => ':attribute phải là một trong các giá trị: :values',
@@ -58,33 +58,42 @@ class PostController extends Controller
             'uploaded_by' => 'Người đăng',
             'status' => 'Trạng thái',
         ]);
-
+    
         // Kiểm tra người dùng đã đăng nhập hay chưa
         if (Auth::check()) {
             $userId = Auth::user()->id; // Lấy ID người dùng đã đăng nhập
         } else {
             return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để tiếp tục');
         }
-
-        $file = $request->file('image');
-        $path = null;
-        if ($file) {
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('uploads', $fileName, 'public');
-        }
-
+    
+        // Dữ liệu cơ bản cho bài viết
         $data = [
             'title' => $request->title,
             'category_id' => $request->category_id,
             'content' => $request->content,
             'uploaded_by' => $userId,
             'status' => $request->status,
-            'image' => $path
         ];
+    
+        // Kiểm tra nếu có hình ảnh được tải lên
+        if ($request->hasFile('image')) {
+            // Lưu ảnh vào thư mục và lưu thông tin ảnh vào bảng upload_files
+            $imagePath = $request->file('image')->store('image/posts', 'public');
+            $uploadFile = UploadFile::create([
+                'file_name' => $request->file('image')->getClientOriginalName(),
+                'file_path' => $imagePath,
+                'file_type' => $request->file('image')->getClientMimeType(),
+                'uploaded_by' => $userId,
+            ]);
+    
+            // Gán ID ảnh vào dữ liệu bài viết
+            $data['image'] = $uploadFile->id;
+        }
+    
+        // Tạo bài viết
         Post::create($data);
-
+    
         return redirect()->route('admin.posts.index')->with('success', 'Thêm bài viết thành công.');
-
     }
     public function edit($id)
     {

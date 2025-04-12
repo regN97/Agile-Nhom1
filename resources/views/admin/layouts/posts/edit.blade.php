@@ -59,13 +59,12 @@
                                             </select>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <label for="image">Hình ảnh</label>
                                         <div class="col-12">
                                             <input type="file" name="image" id="image" class="form-control">
                                             @if($post->image)
-                                                <p><img src="{{ asset('storage/'.$post->image) }}" width="100" alt="image"></p>
+                                                <p><img src="{{ asset('storage/' . $post->upload_files->file_path) }}" width="100" alt="image"></p>
                                             @endif
                                         </div>
                                     </div>
@@ -80,8 +79,9 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-12 d-flex">
+                                        <div class="col-6 d-flex gap-2">
                                             <button type="submit" class="cr-btn-primary">Cập nhật</button>
+                                            <a href="{{ route('admin.posts.index') }}" class="cr-btn-secondary">Cancel</a>
                                         </div>
                                     </div>
 

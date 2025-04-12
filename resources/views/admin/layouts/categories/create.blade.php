@@ -39,13 +39,12 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-12 d-flex">
+                                        <div class="col-6 d-flex gap-2">
                                             <button type="submit" class="cr-btn-primary">Submit</button>
+                                            <a href="{{ route('admin.categories.index') }}" class="cr-btn-secondary">Cancel</a>
                                         </div>
                                     </div>
-
                                 </form>
-
                             </div>
                         </div>
                     </div>

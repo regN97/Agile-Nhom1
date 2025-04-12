@@ -39,7 +39,7 @@ class PostController extends Controller
             'title' => 'required|string|max:255', // Tiêu đề
             'content' => 'required|string', // Nội dung
             'category_id' => 'required|exists:categories,id', // Danh mục
-            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg', // Hình ảnh
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg,webp', // Hình ảnh
             'uploaded_by' => 'nullable|exists:users,id', // Người đăng
             'status' => 'required|in:draft,published', // Trạng thái
         ], [
@@ -59,12 +59,7 @@ class PostController extends Controller
             'status' => 'Trạng thái',
         ]);
     
-        // Kiểm tra người dùng đã đăng nhập hay chưa
-        if (Auth::check()) {
-            $userId = Auth::user()->id; // Lấy ID người dùng đã đăng nhập
-        } else {
-            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để tiếp tục');
-        }
+        $userId = Auth::user()->id;
     
         // Dữ liệu cơ bản cho bài viết
         $data = [
@@ -131,12 +126,18 @@ class PostController extends Controller
             'status' => 'Trạng thái',
         ]);
 
-        // Kiểm tra người dùng đã đăng nhập hay chưa
-        if (Auth::check()) {
-            $userId = Auth::user()->id; // Lấy ID người dùng đã đăng nhập
-        } else {
-            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để tiếp tục');
-        }
+        $userId = Auth::user()->id;
+
+        $data = [
+            'title' => $request->title,
+            'category_id' => $request->category_id,
+            'content' => $request->content,
+            'uploaded_by' => $userId,
+            'status' => $request->status,
+        ];
+
+        $data['image'] = $post->image;
+
         // Kiểm tra nếu có hình ảnh mới
         if ($request->hasFile('image')) {
             // Lưu ảnh mới vào thư mục và lưu thông tin ảnh vào bảng upload_files
@@ -149,7 +150,7 @@ class PostController extends Controller
             ]);
 
             // Gán ID ảnh mới vào dữ liệu bài viết
-            $dataValidate['image'] = $uploadFile->id;
+            $data['image'] = $uploadFile->id;
 
             // Xóa ảnh cũ nếu có
             if ($post->image) {
@@ -162,7 +163,7 @@ class PostController extends Controller
         }
 
         // Cập nhật bài viết
-        $post->update($dataValidate);
+        $post->update($data);
 
         // Quay lại danh sách bài viết với thông báo thành công
         return redirect()->route('admin.posts.index')->with('success', 'Cập nhật bài viết thành công.');

@@ -8,7 +8,6 @@
                     <div class="table-responsive">
                         @if (session('success'))
                             <p class="text-success">{{ session('success') }}</p>
-
                         @endif
                         <table id="product_list" class="table" style="width:100%">
                             <thead>
@@ -28,12 +27,11 @@
                                 @foreach ($posts as $key => $post)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $post->title }}</td>
-                                        <td>{{ $post->content }}</td>
+                                        <td>{{ Str::limit($post->title, 50) }}</td>
+                                        <td>{{ Str::limit($post->content, 50) }}</td>
                                         <td>{{ $post->categories->name }}</td>
                                         <td>
-
-                                            @if($post->upload_files && $post->upload_files->file_path)
+                                            @if ($post->upload_files && $post->upload_files->file_path)
                                                 <img src="{{ asset('storage/' . $post->upload_files->file_path) }}"
                                                     style="max-width: 100px; height: auto;" alt="image">
                                             @else
@@ -51,7 +49,7 @@
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item"
-                                                    href="{{route('admin.posts.edit', $post->id)}}">Edit</a>
+                                                    href="{{ route('admin.posts.edit', $post->id) }}">Edit</a>
                                                 <form action="{{ route('admin.posts.delete', $post->id) }}" method="POST"
                                                     onsubmit="return confirm('Bạn có chắc chắn muốn xóa?')">
                                                     @csrf

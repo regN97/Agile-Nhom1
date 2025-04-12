@@ -42,11 +42,7 @@
                                         <p>wiley@example.com</p>
                                     </div>
                                     <ul class="border-top">
-                                        <li><a href="team-profile.html">Profile</a></li>
-                                        <li><a href="faq.html">Help</a></li>
-                                        <li><a href="chatapp.html">Messages</a></li>
-                                        <li><a href="project-overview.html">Projects</a></li>
-                                        <li><a href="team-update.html">Settings</a></li>
+                                        <li><a href="{{route('home')}}">Home Page</a></li>
                                     </ul>
                                     <ul class="border-top">
                                         <li><a href="{{route('auth.logout')}}"><i class="ri-logout-circle-r-line"></i>Logout</a>

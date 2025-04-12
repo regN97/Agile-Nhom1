@@ -39,6 +39,7 @@
 
     <!-- Main CSS -->
     <link id="main-css" href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet">
+    @vite('resources/css/app.css')
 
 </head>
 

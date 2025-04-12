@@ -34,6 +34,7 @@
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    @vite(['resources/css/app.css'])
 </head>
 
 <body class="body-bg-6">

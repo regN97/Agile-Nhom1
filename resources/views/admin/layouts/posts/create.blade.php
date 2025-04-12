@@ -22,7 +22,8 @@
                                         <label for="title">Tiêu đề</label>
                                         <div class="col-12">
                                             <input id="title" name="title"
-                                                class="form-control @error('title') is-invalid @enderror" type="text">
+                                                class="form-control @error('title') is-invalid @enderror" type="text"
+                                                value="{{ old('title') }}">
                                             @error('title')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -34,7 +35,7 @@
                                     <div class="form-group">
                                         <label for="content">Nội dung</label>
                                         <div class="col-12">
-                                            <textarea name="content" id="content" class="form-control @error('content') is-invalid @enderror"></textarea>
+                                            <textarea name="content" id="content" class="form-control @error('content') is-invalid @enderror">{{ old('content') }}</textarea>
                                             @error('content')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -47,8 +48,8 @@
                                         <label for="category_id">Danh mục</label>
                                         <div class="col-12">
                                             <select name="category_id" id="category_id" class="form-control">
-                                                @foreach($categories as $category)
-                                                    <option value="{{ $category->id }}">
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}" @if (old('category_id') == $category->id) selected @endif>
                                                         {{ $category->name }}
                                                     </option>
                                                 @endforeach
@@ -73,8 +74,9 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-12 d-flex">
+                                        <div class="col-6 d-flex gap-2">
                                             <button type="submit" class="cr-btn-primary">Thêm mới</button>
+                                            <a href="{{ route('admin.posts.index') }}" class="cr-btn-secondary">Cancel</a>
                                         </div>
                                     </div>
 

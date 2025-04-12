@@ -6,25 +6,26 @@
         <div class="container">
             <div class="row mb-minus-24">
                 <div class="col-lg-12 mb-24">
-                    
-                    <div class="cr-blog-classic" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
-                        <div class="cr-blog-classic-content">
-                            <div class="cr-comment">
-                                <span>By Admin <code> / 07 commen</code></span>
+
+                    @foreach ($posts as $post)
+                        <div class="cr-blog-classic" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
+                            <div class="cr-blog-classic-content">
+                                <div class="cr-comment">
+                                    <span>By {{ Auth::user()->name }}</span>
+                                </div>
+                                <h4>{{ $post->title }}</h4>
+                                <p>{{ Str::limit($post->content, 50) }}</p>
+                                <a href="javascript:void(0)">read more</a>
                             </div>
-                            <h4>Best guide to Shopping for Organic ingredients.</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste alias odit cupiditate harum
-                                magnam tenetur inventore dicta voluptatum perferendis voluptate!</p>
-                            <a href="javascript:void(0)">read more</a>
+                            <div class="cr-blog-image">
+                                <img src="{{ asset('storage/' . $post->upload_files->file_path) }}" alt="blog-1">
+                            </div>
                         </div>
-                        <div class="cr-blog-image">
-                            <img src="{{ asset('assets/img/blog/blog-1.jpg') }}" alt="blog-1">
-                        </div>
-                    </div>
+                    @endforeach
 
                 </div>
             </div>
-            <nav aria-label="..." class="cr-pagination">
+            {{-- <nav aria-label="..." class="cr-pagination">
                 <ul class="pagination">
                     <li class="page-item disabled">
                         <span class="page-link">Previous</span>
@@ -38,7 +39,7 @@
                         <a class="page-link" href="#">Next</a>
                     </li>
                 </ul>
-            </nav>
+            </nav> --}}
         </div>
     </section>
 @endsection

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ClientController::class, 'index'])->name('home');
 Route::get('/show-post/{id}', [ClientController::class, 'show'])->name('post.show');
+Route::get('/show-category/{id}', [ClientController::class, 'categoryShow'])->name('category.show');
 
 Route::post('/search', [ClientController::class, 'search'])->name('post.search');
 
@@ -45,4 +46,6 @@ Route::prefix('admin')->as('admin.')->middleware('check-admin')->group(
             Route::delete('/delete/{id}', [PostController::class, 'delete'])->name('delete');
         });
 
-    });
+        Route::get('/upload-history/{id}', [PostController::class, 'uploadHistory'])->name('upload-history');
+    }
+);

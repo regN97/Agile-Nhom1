@@ -182,4 +182,14 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('admin.posts.index')->with('success', 'Xóa bài viết thành công.');
     }
+
+    public function uploadHistory(Request $request)
+    {
+        $posts = Post::with('categories', 'upload_files')->where('uploaded_by', '=', $request->id)->get();
+
+        return view('admin.layouts.posts.history')->with([
+            'title' => 'Lịch sử đăng bài',
+            'posts' => $posts
+        ]);
+    }
 }

@@ -63,4 +63,16 @@ class ClientController extends Controller
             'message' => $message,
         ]);
     }
+
+    public function categoryShow(Request $req)
+    {
+        $postList = Post::with('categories', 'upload_files')->where('category_id', '=', $req->id)->get();
+        $categories = Category::get();
+        $categoryName = Category::where('id', '=', $req->id)->first();
+        return view('client.layouts.categories.show')->with([
+            'categories' => $categories,
+            'title' => $categoryName->name,
+            'posts' => $postList
+        ]);
+    }
 }

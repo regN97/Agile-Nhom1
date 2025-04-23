@@ -8,11 +8,10 @@
                         <img src="{{ asset('assets/img/logo/logo.png') }}" alt="logo" class="logo">
                         <img src="{{ asset('assets/img/logo/dark-logo.png') }}" alt="logo" class="dark-logo">
                     </a>
-                    <form class="cr-search">
-                        <input class="search-input" type="text" placeholder="Search here...">
-                        <a href="javascript:void(0)" class="search-btn">
-                            <i class="ri-search-line"></i>
-                        </a>
+                    <form class="cr-search" method="POST" action="{{ route('post.search') }}">
+                        @csrf
+                        <input class="search-input" type="text" placeholder="Search here..." name="search">
+                        <button type="submit" class="search-btn"><i class="ri-search-line"></i></button>
                     </form>
                     <div class="cr-right-bar">
                         <ul class="navbar-nav">
@@ -244,21 +243,13 @@
                                     Home
                                 </a>
                             </li>
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="javascript:void(0)">
-                                    Category
-                                </a>
-                                <ul class="dropdown-menu">
-                                    @foreach ($categories as $category)
-                                        <li>
-                                            <a class="dropdown-item"
-                                                href="shop-left-sidebar.html">{{ $category->name }}</a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </li>
-
+                            @foreach ($categories as $category)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        {{ $category->name }}
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </nav>

@@ -58,9 +58,9 @@ class PostController extends Controller
             'uploaded_by' => 'Người đăng',
             'status' => 'Trạng thái',
         ]);
-    
+
         $userId = Auth::user()->id;
-    
+
         // Dữ liệu cơ bản cho bài viết
         $data = [
             'title' => $request->title,
@@ -69,7 +69,7 @@ class PostController extends Controller
             'uploaded_by' => $userId,
             'status' => $request->status,
         ];
-    
+
         // Kiểm tra nếu có hình ảnh được tải lên
         if ($request->hasFile('image')) {
             // Lưu ảnh vào thư mục và lưu thông tin ảnh vào bảng upload_files
@@ -80,14 +80,14 @@ class PostController extends Controller
                 'file_type' => $request->file('image')->getClientMimeType(),
                 'uploaded_by' => $userId,
             ]);
-    
+
             // Gán ID ảnh vào dữ liệu bài viết
             $data['image'] = $uploadFile->id;
         }
-    
+
         // Tạo bài viết
         Post::create($data);
-    
+
         return redirect()->route('admin.posts.index')->with('success', 'Thêm bài viết thành công.');
     }
     public function edit($id)
@@ -106,7 +106,7 @@ class PostController extends Controller
             'title' => 'required|string|max:255', // Tiêu đề
             'content' => 'required|string', // Nội dung
             'category_id' => 'required|exists:categories,id', // Danh mục
-            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg', // Hình ảnh
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg,webp', // Hình ảnh
             'uploaded_by' => 'nullable|exists:users,id', // Người đăng
             'status' => 'required|in:draft,published', // Trạng thái
         ], [
@@ -173,6 +173,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         if ($post->image) {
             $uploadFile = UploadFile::find($post->image);
+            dd($uploadFile);
             if ($uploadFile) {
                 Storage::disk('public')->delete($uploadFile->file_path);
                 $uploadFile->delete();

@@ -5,27 +5,28 @@
     <section class="section-blog-Classic padding-tb-100">
         <div class="container">
             <div class="row mb-minus-24">
-                <div class="col-lg-12 mb-24">
-
-                    @foreach ($posts as $post)
+                @foreach ($posts as $post)
+                    <div class="col-lg-6 mb-24">
                         <div class="cr-blog-classic" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                             <div class="cr-blog-classic-content">
                                 <div class="cr-comment">
-                                    <span>By {{ Auth::user()->name }}</span>
+                                    <span></span>
                                 </div>
                                 <h4>{{ $post->title }}</h4>
                                 <p>{{ Str::limit($post->content, 50) }}</p>
-                                <a href="javascript:void(0)">read more</a>
+                                <a href="{{ route('post.show', $post->id) }}">read more</a>
                             </div>
                             <div class="cr-blog-image">
-                                <img src="{{ asset('storage/' . $post->upload_files->file_path) }}" alt="blog-1">
+                                <a href="{{ route('post.show', $post->id) }}">
+                                    <img src="{{ asset('storage/' . $post->upload_files->file_path) }}"
+                                        alt="{{ $post->title }}">
+                                </a>
                             </div>
                         </div>
-                    @endforeach
-
-                </div>
+                    </div>
+                @endforeach
             </div>
-            {{-- <nav aria-label="..." class="cr-pagination">
+            <nav aria-label="..." class="cr-pagination">
                 <ul class="pagination">
                     <li class="page-item disabled">
                         <span class="page-link">Previous</span>
@@ -39,7 +40,7 @@
                         <a class="page-link" href="#">Next</a>
                     </li>
                 </ul>
-            </nav> --}}
+            </nav>
         </div>
     </section>
 @endsection

@@ -7,6 +7,9 @@ use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ClientController::class, 'index'])->name('home');
+Route::get('/show-post/{id}', [ClientController::class, 'show'])->name('post.show');
+
+Route::post('/search', [ClientController::class, 'search'])->name('post.search');
 
 
 Route::prefix('auth')->as('auth.')->group(function () {

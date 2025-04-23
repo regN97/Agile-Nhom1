@@ -6,7 +6,7 @@
                 <div class="col-lg-12">
                     <div class="cr-breadcrumb-title">
                         <h2>{{ $title }}</h2>
-                        <span><a href="{{route('home')}}">Home</a> - {{ $title }}</span>
+                        <span><a href="{{ route('home') }}">Home</a> - {{ $title }}</span>
                     </div>
                 </div>
             </div>

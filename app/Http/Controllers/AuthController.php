@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Session;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,7 +14,11 @@ class AuthController extends Controller
     public function login()
     {
         $title = "Login";
-        return view('auth.login')->with('title', $title);
+        $categories = Category::get();
+        return view('auth.login')->with([
+            'title' => $title,
+            'categories' => $categories,
+        ]);
     }
 
     public function postLogin(Request $req) {
@@ -60,8 +65,13 @@ class AuthController extends Controller
     public function register()
     {
         $title = "Register";
-        return view('auth.register')->with('title', $title);
+        $categories = Category::get();
+        return view('auth.register')->with([
+            'title' => $title,
+            'categories' => $categories,
+        ]);
     }
+    
     public function postRegister(Request $req) {
         $req->validate([
             'name' => 'required',
